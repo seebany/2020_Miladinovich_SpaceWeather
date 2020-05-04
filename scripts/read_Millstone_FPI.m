@@ -1,6 +1,5 @@
 % This function reads in FPI data files of the form Millstone_FPI_yyyymmdd.txt
-% obtained of the Millstone Hill high-resolution FPI from the CEDAR Madrigal web
-site
+% obtained of the Millstone Hill high-resolution FPI from the CEDAR Madrigal website
 % The function supports script plot_Fig1b.m for producing Figure 1b of 
 % Miladinovich et al., (2020).
 %
