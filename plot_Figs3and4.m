@@ -16,26 +16,6 @@
 clear
 close all
 
-%load runs and store relevant data
-datadir = 'data/';
-rundir{1} = 'Run1_';
-rundir{2} = 'Run2_';
-rundir{3} = 'Run3_';
-filename = 'StormTimeIonDrifts170010_182330.mat';
-
-%Run 3
-load([datadir rundir{3} filename],'vs');
-vs3 = vs; clear vs;
-%Run 2
-load([datadir rundir{2} filename],'vs');
-vs2 = vs; clear vs;
-%Run 1, from which the drift measurement locations selectloc,
-%model drifts vm and ISR drifts vISR are also loaded. Those
-%variables are identical in all runs.
-load([datadir rundir{1} filename],'vs','selectloc', ...
-    'xtime', 'vm', 'vISR');%,'utc');
-vs1 = vs;% clear vs;
-
 %plotting time interval for Figure 4
 t1start = datenum([2015,03,17,13,00,00]);
 t1end = datenum([2015,03,18,13,00,00]);
@@ -46,59 +26,7 @@ etime = datestr(t1end, 'ddHHMM');
 t2start = datenum([2015,03,17,0,00,00]);
 t2end = datenum([2015,03,19,0,00,00]);
 
-% selectloc contains both MHISR look directions so selectloc is 1x2 struct.
-for sitenum = 1:2
-tarlon = selectloc(sitenum).lon;%E
-tarlat = selectloc(sitenum).lat;%N
-tarht = selectloc(sitenum).ht;
-for i = 1:xtime
-    
-    % Find the closest EMPIRE grid location to the desired location.
-    X1 = vs(sitenum,i).long_v;
-    X2 = vs(sitenum,i).latg_v;
-    X3 = vs(sitenum,i).htg_v;
-    disttar = sqrt((X1-tarlon).^2+(X2-tarlat).^2+(X3-tarht).^2);
-    inds = find(disttar == min(disttar));
-   
-    % Find the closest background model grid location to the desired
-    % location. This point should be identical to the
-    % EMPIRE gridpoint found above.
-   X1 = vm(sitenum,i).long_v;
-   X2 = vm(sitenum,i).latg_v;
-   X3 = vm(sitenum,i).htg_v;
-    
-   disttar = sqrt((X1-tarlon).^2+(X2-tarlat).^2+(X3-tarht).^2);
-   indm2(i) = find(disttar == min(min(min(disttar))));
-   indm = indm2(i); 
-
-    time(i) = vs(sitenum,i).time;
-    
-    % Collect stormtime drift components for Run 1. 
-    vszon1(sitenum,i) = vs1(sitenum,i).vZonm(inds);
-    vspara1(sitenum,i) = vs1(sitenum,i).vParam(inds);
-    vsmerid1(sitenum,i) = vs1(sitenum,i).vMeridm(inds);
-    
-    % Estimated drift components for Run 2.
-    vszon2(sitenum,i) = vs2(sitenum,i).vZonm(inds);
-    vspara2(sitenum,i) = vs2(sitenum,i).vParam(inds);
-    vsmerid2(sitenum,i) = vs2(sitenum,i).vMeridm(inds);
-    
-    % Drift components for Run 3.
-    vszon3(sitenum,i) = vs3(sitenum,i).vZonm(inds);
-    vspara3(sitenum,i) = vs3(sitenum,i).vParam(inds);
-    vsmerid3(sitenum,i) = vs3(sitenum,i).vMeridm(inds);
-   
-    % Model drift components.
-   vmzon(sitenum,i) = vm(sitenum,i).zon(indm);
-   vmpara(sitenum,i) = vm(sitenum,i).para(indm);
-   vmmerid(sitenum,i) = vm(sitenum,i).merid(indm);
-    
-%    errzon(sitenum,i) = vs(sitenum,i).P(1);
-%    errpara(sitenum,i) = vs(sitenum,i).P(2);
-%    errmerid(sitenum,i) = vs(sitenum,i).P(3);
-    
-end
-end
+load('data/Figs3and4_results.mat');
 
 LineWidthsMean = 2;
 LineWidthsStDev = 1;
@@ -115,8 +43,8 @@ ind2e = find(abs(t2end - time) == min(abs(t2end - time)));
 %=========================================================================
 % Select data to be plotted in each figure.
 %=========================================================================
-
-% Select the data to be plotted for Figure 4. Choose location1 (47 N, 89 W) for zonal and location2 for
+% Select the data to be plotted for Figure 4. Choose location1 (47 N, 89 W) for 
+zonal and location2 for
 % others.
 x1 = time(ind1s:ind1e);
 y1szon1 = vszon1(1,ind1s:ind1e);
@@ -131,16 +59,13 @@ y1szon3 = vszon3(1,ind1s:ind1e);
 %y1spara3 = vspara3(1, ind1s:ind1e);
 y1smerid3 = vsmerid3(2, ind1s:ind1e);
 
-%y1errzon = errzon(1, ind1s:ind1e);
-%%y1errpara = errpara(1, ind1s:ind1e);
-%y1errmerid = errmerid(2, ind1s:ind1e);
-
 y1mzon = vmzon(1, ind1s:ind1e);
 %y1mpara = vmpara(1, ind1s:ind1e);
 y1mmerid = vmmerid(2, ind1s:ind1e);
 
 
-% Select the data to be plotted for Figure 3. Choose location1 (47 N, 89 W) for all components.
+% Select the data to be plotted for Figure 3. Choose location1 (47 N, 89 W) for 
+all components.
 x2 = time(ind2s:ind2e);
 y2szon1 = vszon1(1,ind2s:ind2e);
 y2spara1 = vspara1(1, ind2s:ind2e);
@@ -153,10 +78,6 @@ y2smerid2 = vsmerid2(1, ind2s:ind2e);
 y2szon3 = vszon3(1, ind2s:ind2e);
 y2spara3 = vspara3(1, ind2s:ind2e);
 y2smerid3 = vsmerid3(1, ind2s:ind2e);
-
-%y2errzon = errzon(1, ind2s:ind2e);
-%y2errpara = errpara(1, ind2s:ind2e);
-%y2errmerid = errmerid(1, ind2s:ind2e);
 
 y2mzon = vmzon(1, ind2s:ind2e);
 y2mpara = vmpara(1, ind2s:ind2e);
@@ -211,10 +132,12 @@ datetick(ax2,'x','DD/HH','keeplimits')
 datetick(ax1,'x','DD/HH','keeplimits')
 
 title(ax1, {'(a) Ion Drifts in Field Aligned Frame'; ...
-    ['Loc: Lon = ' num2str(selectloc(1).lon) ' Lat = ' num2str(selectloc(1).lat)]})
+    ['Loc: Lon = ' num2str(selectloc(1).lon) ' Lat = ' num2str(selectloc(1).lat)
+]})
 title(ax2, ['(b) Loc: Lon = ' num2str(selectloc(2).lon) ' Lat = ' ...
     num2str(selectloc(2).lat)]);
-h = legend(ax2,'ISR Measurements','No FPI, Correct V', 'No FPI, Correct V and uN', ...
+h = legend(ax2,'ISR Measurements','No FPI, Correct V', 'No FPI, Correct V and uN
+', ...
     'Ingest FPI N, Correct V and uN', 'Background model', 'Location',...
    'best');
 
@@ -280,6 +203,6 @@ title(ax1, {'Ion Drifts In Field Aligned Frame'; ...
     ['Loc: Lon = ' num2str(selectloc(1).lon) ...
     ' Lat = ' num2str(selectloc(1).lat)]})
 
-legh = legend(ax2,'No FPI, Correct V', 'No FPI, Correct V and uN', ...
+legh = legend(ax2,'No FPI, Correct V', 'No FPI, Correct V and uN', ...    
     'Ingest FPI N, Correct V and uN', 'Background model', 'Location','best');
 set(legh, 'Position',[0.6, 0.5, 0.3156, 0.0910]);
