@@ -43,9 +43,8 @@ ind2e = find(abs(t2end - time) == min(abs(t2end - time)));
 %=========================================================================
 % Select data to be plotted in each figure.
 %=========================================================================
-% Select the data to be plotted for Figure 4. Choose location1 (47 N, 89 W) for 
-zonal and location2 for
-% others.
+% Select the data to be plotted for Figure 4. Choose location1 (47 N, 89 W) 
+% for zonal and location2 (53 N, 75 W) for meridional.
 x1 = time(ind1s:ind1e);
 y1szon1 = vszon1(1,ind1s:ind1e);
 %y1spara1 = vspara1(1,ind1s:ind1e);
@@ -65,7 +64,7 @@ y1mmerid = vmmerid(2, ind1s:ind1e);
 
 
 % Select the data to be plotted for Figure 3. Choose location1 (47 N, 89 W) for 
-all components.
+% all components.
 x2 = time(ind2s:ind2e);
 y2szon1 = vszon1(1,ind2s:ind2e);
 y2spara1 = vspara1(1, ind2s:ind2e);
@@ -136,8 +135,7 @@ title(ax1, {'(a) Ion Drifts in Field Aligned Frame'; ...
 ]})
 title(ax2, ['(b) Loc: Lon = ' num2str(selectloc(2).lon) ' Lat = ' ...
     num2str(selectloc(2).lat)]);
-h = legend(ax2,'ISR Measurements','No FPI, Correct V', 'No FPI, Correct V and uN
-', ...
+h = legend(ax2,'ISR Measurements','No FPI, Correct V', 'No FPI, Correct V and uN', ...
     'Ingest FPI N, Correct V and uN', 'Background model', 'Location',...
    'best');
 
