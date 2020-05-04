@@ -9,8 +9,7 @@
 % sdattaba@iit.edu
 % 16 Apr 2020
 
-function [uwut, azm, elm, gdalt, vnu, dvnu, wind_err] = read_Millstone_FPI(filen
-ame)
+function [uwut, azm, elm, gdalt, vnu, dvnu, wind_err] = read_Millstone_FPI(filename)
 
 % Load file into matrix S.
 S=load(filename);
