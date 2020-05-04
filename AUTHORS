@@ -1,0 +1,21 @@
+This package includes the scripts and files for reproducing the plots in the paper Miladinovich, D. S., S. Datta-Barua, A. Lopez-Rubio, S. Zhang, and G. S. Bust (2020), Assimilation of GNSS Measurements for Estimation of High-Latitude Convection Processes, Space Weather.
+
+Script and function authors:
+D. S. Miladinovich, S. Datta-Barua, and U. Ramirez
+
+Data credits:
+Dst_provisional_201503.txt: World Data Center for Geomagnetism, Kyoto, Japan
+http://wdc.kugi.kyoto-u.ac.jp/dst_provisional/201503/index.html
+
+mapdata.mat: Todd Walter, Stanford University
+
+Millstone_FPI_20150317.txt, Millstone_FPI_20150318.txt: John Noto, CPI; Robert Kerr, CPI
+
+All other data files: Miladinovich, D.S., S. Datta-Barua, A. Lopez-Rubio, S. Zhang, and G. S. Bust.
+
+Point of contact:
+Seebany Datta-Barua, Illinois Institute of Technology
+sdattaba@iit.edu
+http://apollo.tbc.iit.edu/~spaceweather/live/
+Created 2 May 2020
+
