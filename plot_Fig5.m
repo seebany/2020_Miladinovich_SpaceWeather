@@ -14,7 +14,7 @@
 % Illinois Institute of Technology
 % sdattaba@iit.edu
 % 16 Apr 2020
-
+% 14 July 2020 Updating for revised proof figures.
 clear
 close all
 
@@ -28,14 +28,23 @@ for i = 1:numel(t)
     load(['data/potential_' datestr(t(i) ,'yymmdd_HHMM')])
     % Plot.
     fig = figure;
-    axesm('MapProjection', 'ortho','origin', [90, 0], 'meridianlabel', 'on',...
+    axesm('MapProjection', 'ortho','origin', [53, -75], 'meridianlabel', 'on',...
         'parallellabel','on','grid','on', 'mlabelparallel',0,'labelrotation','on',...
         'fontsize',15,'fontweight','bold','labelformat','none');
     hold on
-    pcolorm(glat,glon,potential);
+
+    % Contour colors every 20 kV for the 17th 1610 UT, and 10 kV for other times.
+    if i == 1
+	stepsize = 20; %kV
+    else
+	stepsize = 10; %kV
+    end
+
+    C = contourfm(glat, glon, potential, 'LevelStep', stepsize, 'Fill','on', ...
+	'LineColor','none');
     framem
+    %caxis([bottomtick(1) toptick(end)]);
     cbhl = colorbar;
-    title(['EMPIRE-corrected Electric Potential in kV at ' datestr(t(i), 'mmm dd, yyyy, HH:MM') ' UT'])
     for j = 1:numel(ISRlat)
         plotm(ISRlat(j), ISRlon(j),'mo','MarkerSize', 5, 'LineWidth', 2);
     end
@@ -44,5 +53,8 @@ for i = 1:numel(t)
     coastline = load('coast');
     plotm(coastline.lat, coastline.long,'w')
     
-    C = contourm(glat,glon,potential,'k','LevelStep',5);
+    C2 = contourm(glat,glon,potential,'k','LevelStep',100);
+    title(['EMPIRE-corrected Electric Potential in kV on ' datestr(t(i), 'dd mmm yyyy, HH:MM') ' UT'])
+    cbpos = get(cbhl,'position');
+    set(cbhl,'position', [cbpos(1)+0.05 cbpos(2)+0.01 cbpos(3:4)])
 end
