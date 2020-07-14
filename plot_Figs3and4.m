@@ -43,8 +43,9 @@ ind2e = find(abs(t2end - time) == min(abs(t2end - time)));
 %=========================================================================
 % Select data to be plotted in each figure.
 %=========================================================================
-% Select the data to be plotted for Figure 4. Choose location1 (47 N, 89 W) 
-% for zonal and location2 (53 N, 75 W) for meridional.
+
+% Select the data to be plotted for Figure 4. Choose location1 (47 N, 89 W) for zonal and location2 for
+% others.
 x1 = time(ind1s:ind1e);
 y1szon1 = vszon1(1,ind1s:ind1e);
 %y1spara1 = vspara1(1,ind1s:ind1e);
@@ -63,8 +64,7 @@ y1mzon = vmzon(1, ind1s:ind1e);
 y1mmerid = vmmerid(2, ind1s:ind1e);
 
 
-% Select the data to be plotted for Figure 3. Choose location1 (47 N, 89 W) for 
-% all components.
+% Select the data to be plotted for Figure 3. Choose location1 (47 N, 89 W) for all components.
 x2 = time(ind2s:ind2e);
 y2szon1 = vszon1(1,ind2s:ind2e);
 y2spara1 = vspara1(1, ind2s:ind2e);
@@ -131,8 +131,7 @@ datetick(ax2,'x','DD/HH','keeplimits')
 datetick(ax1,'x','DD/HH','keeplimits')
 
 title(ax1, {'(a) Ion Drifts in Field Aligned Frame'; ...
-    ['Loc: Lon = ' num2str(selectloc(1).lon) ' Lat = ' num2str(selectloc(1).lat)
-]})
+    ['Loc: Lon = ' num2str(selectloc(1).lon) ' Lat = ' num2str(selectloc(1).lat)]})
 title(ax2, ['(b) Loc: Lon = ' num2str(selectloc(2).lon) ' Lat = ' ...
     num2str(selectloc(2).lat)]);
 h = legend(ax2,'ISR Measurements','No FPI, Correct V', 'No FPI, Correct V and uN', ...
@@ -193,14 +192,10 @@ ax3.XTickLabelRotation = 0;
 datetick(ax1,'x','DD/HH','keeplimits')
 datetick(ax2,'x','DD/HH','keeplimits')
 datetick(ax3,'x','DD/HH','keeplimits')
-set(ax1,'Xticklabel',[])
-set(ax2,'Xticklabel',[])
-
 
 title(ax1, {'Ion Drifts In Field Aligned Frame'; ...
     ['Loc: Lon = ' num2str(selectloc(1).lon) ...
     ' Lat = ' num2str(selectloc(1).lat)]})
 
-legh = legend(ax2,'No FPI, Correct V', 'No FPI, Correct V and uN', ...    
+legh = legend(ax1,'No FPI, Correct V', 'No FPI, Correct V and uN', ...
     'Ingest FPI N, Correct V and uN', 'Background model', 'Location','best');
-set(legh, 'Position',[0.6, 0.5, 0.3156, 0.0910]);
